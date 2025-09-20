@@ -49,7 +49,7 @@ javac -cp "$CLASSPATH" -d target/classes src/main/java/com/example/spark/Iceberg
 if [ $? -eq 0 ]; then
     echo "Compilation successful. Starting Metadata Viewer..."
     echo ""
-    java -cp "$CLASSPATH" com.example.spark.IcebergMetadataViewer "$METADATA_PATH"
+    java -cp "$CLASSPATH" com.recnos.spark.IcebergMetadataViewer "$METADATA_PATH"
 else
     echo "Compilation failed."
     exit 1

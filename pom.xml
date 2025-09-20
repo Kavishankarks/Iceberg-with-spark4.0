@@ -29,6 +29,12 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.version}</artifactId>
             <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr4-runtime</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Spark SQL -->
@@ -36,6 +42,12 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.version}</artifactId>
             <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr4-runtime</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Iceberg Spark Runtime for Spark 4.0 -->
@@ -93,6 +105,32 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.9</version>
+        </dependency>
+
+        <!-- Kafka dependencies -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_${scala.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+
+        <!-- ANTLR runtime to fix version conflicts -->
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.9.3</version>
         </dependency>
 
         <!-- Derby for embedded metastore -->
@@ -169,9 +207,27 @@
                             <mainClass>com.example.spark.IcebergMetadataViewer</mainClass>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>run-kafka-producer</id>
+                        <configuration>
+                            <mainClass>com.recnos.spark.KafkaDataProducer</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>run-kafka-streaming</id>
+                        <configuration>
+                            <mainClass>com.recnos.spark.KafkaToIcebergStreaming</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>run-simple-streaming</id>
+                        <configuration>
+                            <mainClass>com.recnos.spark.SimpleKafkaToIcebergStreaming</mainClass>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.example.spark.SparkIcebergCLI</mainClass>
+                    <mainClass>com.recnos.spark.SparkIcebergCLI</mainClass>
                 </configuration>
             </plugin>
         </plugins>

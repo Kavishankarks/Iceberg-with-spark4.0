@@ -1,4 +1,4 @@
-package com.example.spark;
+package com.recnos.spark;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

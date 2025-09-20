@@ -1,12 +1,13 @@
 # Spark Iceberg Overview
 
-A comprehensive project demonstrating Apache Spark with Apache Iceberg table creation, management, and exploration tools.
+A comprehensive project demonstrating Apache Spark with Apache Iceberg table creation, management, streaming ingestion, and exploration tools.
 
 ## Project Overview
 
 This project provides multiple ways to interact with Iceberg tables using Apache Spark 4.0, including:
 
 - **Interactive Java CLI** for running Spark SQL queries
+- **Kafka streaming ingestion** for real-time data pipelines
 - **Metadata exploration tools** for inspecting Iceberg table internals
 - **Web-based Streamlit interface** for visual data exploration
 - **Comprehensive examples** of Iceberg features and operations
@@ -16,6 +17,8 @@ This project provides multiple ways to interact with Iceberg tables using Apache
 - **Java 17** (Amazon Corretto or OpenJDK)
 - **Apache Spark 4.0** 
 - **Apache Iceberg 1.10.0**
+- **Apache Kafka 3.7** (for streaming)
+- **Docker & Docker Compose** (for Kafka cluster)
 - **Python 3.8+** (for Streamlit app)
 - **Maven 3.6+**
 
@@ -44,6 +47,199 @@ Run the full Iceberg feature demonstration:
 ```bash
 ./run.sh
 ```
+
+## 🌊 Kafka Streaming to Iceberg
+
+This project includes a complete real-time streaming pipeline that ingests data from Apache Kafka into Iceberg tables using Spark Structured Streaming.
+
+### Kafka Pipeline Overview
+
+```
+Kafka Topic (user-events) → Spark Streaming → Parquet Files → Iceberg Tables
+```
+
+### 🚀 Quick Start - Streaming Pipeline
+
+#### Step 1: Start Kafka Cluster
+```bash
+# Start Kafka, Zookeeper, and Kafka UI using Docker Compose
+./start-kafka.sh
+```
+
+This will start:
+- **Kafka**: `localhost:9092`
+- **Zookeeper**: `localhost:2181`
+- **Kafka UI**: `http://localhost:8080`
+- **Kafka Connect**: `localhost:8083`
+
+#### Step 2: Generate Sample Data
+```bash
+# Generate 100 user events with 500ms intervals
+./run-kafka-producer.sh 100 500
+
+# Or use default settings (1000 events, 100ms intervals)
+./run-kafka-producer.sh
+```
+
+#### Step 3: Start Streaming to Parquet Files
+```bash
+# Start the streaming application
+./run-simple-streaming.sh
+```
+
+**Note**: Direct Iceberg streaming has ANTLR version conflicts with Spark 4.0. The simple streaming version writes to Parquet files which can then be loaded into Iceberg tables.
+
+### 📊 Data Pipeline Components
+
+#### Kafka Data Producer (`KafkaDataProducer.java`)
+Generates realistic user event data including:
+- **User Events**: login, logout, page_view, search, purchase
+- **User Details**: randomized names, departments, locations
+- **Event Metadata**: timestamps, session IDs, IP addresses
+- **E-commerce Data**: products, prices, quantities, categories
+
+**Sample Event Structure**:
+```json
+{
+  "event_id": 12345,
+  "timestamp": "2025-01-20T14:30:45",
+  "event_type": "purchase",
+  "user_id": 1001,
+  "user_name": "Alice Johnson",
+  "department": "Engineering",
+  "location": "San Francisco",
+  "session_id": "sess_abc123",
+  "ip_address": "192.168.1.100",
+  "amount": 99.99,
+  "currency": "USD",
+  "product_id": "PROD_12345",
+  "category": "Electronics"
+}
+```
+
+#### Spark Structured Streaming (`SimpleKafkaToIcebergStreaming.java`)
+- **Real-time Processing**: 10-second micro-batches
+- **JSON Parsing**: Automatic schema inference and validation
+- **Monitoring**: Built-in streaming metrics and progress tracking
+- **Fault Tolerance**: Checkpointing for exactly-once processing
+- **Output**: Parquet files in `./warehouse/streaming/user_events_parquet`
+
+### 🛠 Advanced Configuration
+
+#### Customize Producer Settings
+```bash
+# Generate specific number of events with custom interval
+./run-kafka-producer.sh [number_of_events] [interval_ms]
+
+# Examples:
+./run-kafka-producer.sh 50 1000    # 50 events, 1 second apart
+./run-kafka-producer.sh 500 100    # 500 events, 100ms apart
+```
+
+#### Docker Compose Services
+The `docker-compose.yml` includes:
+```yaml
+services:
+  zookeeper:     # Kafka coordination
+  kafka:         # Message broker
+  kafka-ui:      # Web UI for Kafka management
+  kafka-connect: # Integration platform
+```
+
+#### Kafka Topic Configuration
+- **Topic**: `user-events`
+- **Partitions**: 3
+- **Replication Factor**: 1
+- **Auto-creation**: Enabled
+
+### 📈 Monitoring and Observability
+
+#### Kafka UI Dashboard
+Access the Kafka UI at `http://localhost:8080` to:
+- View topic messages and schemas
+- Monitor consumer group lag
+- Inspect partition details
+- Manage Kafka Connect connectors
+
+#### Streaming Application Metrics
+The streaming app provides real-time monitoring:
+```
+📈 Streaming Stats - Input: 100.0 rows/sec, Processed: 95.2 rows/sec, Batch Duration: 2500ms
+📊 Processing events from Kafka topic: user-events
+📁 Writing to Parquet files: ./warehouse/streaming/user_events_parquet
+⏱️  Trigger interval: 10 seconds
+---
+```
+
+#### Spark Web UI
+Monitor Spark jobs at `http://localhost:4040` (or next available port):
+- Streaming tab for query progress
+- Jobs tab for task execution
+- Storage tab for RDD/DataFrame caching
+
+### 🔧 Pipeline Management
+
+#### Start Complete Pipeline
+```bash
+# Terminal 1: Start infrastructure
+./start-kafka.sh
+
+# Terminal 2: Start streaming consumer
+./run-simple-streaming.sh
+
+# Terminal 3: Generate data
+./run-kafka-producer.sh 1000 200
+```
+
+#### Stop Pipeline
+```bash
+# Stop streaming (Ctrl+C in streaming terminal)
+# Stop Kafka cluster
+docker-compose down
+
+# Clean up checkpoints (optional)
+rm -rf ./checkpoint
+```
+
+#### Data Output Locations
+- **Streaming Data**: `./warehouse/streaming/user_events_parquet/`
+- **Checkpoint**: `./checkpoint/`
+- **Kafka Logs**: Docker volumes (`kafka-data`, `zk-data`)
+
+### 🚨 Known Issues & Workarounds
+
+#### ANTLR Version Conflict
+- **Issue**: Spark 4.0 and Iceberg have incompatible ANTLR versions
+- **Workaround**: Use `SimpleKafkaToIcebergStreaming` for Parquet output
+- **Future**: Will be resolved in upcoming Iceberg releases
+
+#### Memory Considerations
+```bash
+# Increase JVM memory for large datasets
+export MAVEN_OPTS="-Xmx4g -Xms2g --add-opens=java.base/java.nio=ALL-UNNAMED"
+```
+
+#### Docker Resource Requirements
+- **Minimum**: 4GB RAM, 2 CPU cores
+- **Recommended**: 8GB RAM, 4 CPU cores
+- **Storage**: 10GB available disk space
+
+### 🎯 Use Cases
+
+This streaming pipeline is ideal for:
+- **Real-time Analytics**: Process user behavior as it happens
+- **Event Sourcing**: Capture all user interactions for replay
+- **Data Lake Ingestion**: Continuous data loading into data lakes
+- **Monitoring & Alerting**: React to events in real-time
+- **A/B Testing**: Stream experiment results for analysis
+
+### 📝 Next Steps
+
+1. **Load Parquet to Iceberg**: Convert streaming output to Iceberg tables
+2. **Schema Evolution**: Handle changing event schemas gracefully
+3. **Partitioning Strategy**: Optimize for query patterns
+4. **Compaction**: Manage small file problems
+5. **Time Travel**: Leverage Iceberg's temporal capabilities
 
 ## 🔧 Features
 
