@@ -26,7 +26,7 @@ public class IcebergTableActions {
             runInteractiveActions(spark);
             
         } catch (Exception e) {
-            System.err.println("❌ Error: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
         } finally {
             spark.stop();
@@ -79,7 +79,7 @@ public class IcebergTableActions {
             try {
                 executeAction(spark, input);
             } catch (Exception e) {
-                System.err.println("❌ Error executing action: " + e.getMessage());
+                System.err.println("Error executing action: " + e.getMessage());
             }
         }
         
@@ -97,7 +97,7 @@ public class IcebergTableActions {
         }
         
         if (parts.length < 2) {
-            System.out.println("❌ Usage: <action> <table_name> [options]");
+            System.out.println("Usage: <action> <table_name> [options]");
             System.out.println("Example: rewrite-data demo.employees");
             System.out.println("         show-table-info demo.employees");
             return;
@@ -125,11 +125,11 @@ public class IcebergTableActions {
                     showTableInfo(spark, tableName);
                     break;
                 default:
-                    System.out.println("❌ Unknown action: " + action);
+                    System.out.println("Unknown action: " + action);
                     showAvailableActions();
             }
         } catch (Exception e) {
-            System.err.println("❌ Failed to execute action '" + action + "' on table '" + tableName + "': " + e.getMessage());
+            System.err.println("Failed to execute action '" + action + "' on table '" + tableName + "': " + e.getMessage());
         }
     }
     
@@ -156,7 +156,7 @@ public class IcebergTableActions {
             
             return catalog.loadTable(tableId);
         } catch (Exception e) {
-            System.err.println("❌ Error loading table '" + tableName + "': " + e.getMessage());
+            System.err.println("Error loading table '" + tableName + "': " + e.getMessage());
             throw new RuntimeException("Failed to load table: " + tableName, e);
         }
     }
@@ -174,14 +174,14 @@ public class IcebergTableActions {
                     .execute();
             
             System.out.println("✅ Data files rewrite completed!");
-            System.out.println("📊 Results:");
+            System.out.println("Results:");
             System.out.println("   • Files rewritten: " + result.rewrittenDataFilesCount());
             System.out.println("   • Files added: " + result.addedDataFilesCount());
             System.out.println("   • Bytes rewritten: " + formatBytes(result.rewrittenBytesCount()));
             System.out.println("   • Files groups: " + result.rewriteResults().size());
             
         } catch (Exception e) {
-            System.err.println("❌ Data files rewrite failed: " + e.getMessage());
+            System.err.println("Data files rewrite failed: " + e.getMessage());
         }
     }
     
@@ -195,11 +195,11 @@ public class IcebergTableActions {
                     .execute();
             
             System.out.println("✅ Manifest rewrite completed!");
-            System.out.println("📊 Results:");
+            System.out.println("Results:");
             System.out.println("   • Manifests added: " + result.addedManifests());
             
         } catch (Exception e) {
-            System.err.println("❌ Manifest rewrite failed: " + e.getMessage());
+            System.err.println("Manifest rewrite failed: " + e.getMessage());
         }
     }
     
@@ -219,7 +219,7 @@ public class IcebergTableActions {
             System.out.println("✅ Snapshot expiration completed!");
             
         } catch (Exception e) {
-            System.err.println("❌ Snapshot expiration failed: " + e.getMessage());
+            System.err.println("Snapshot expiration failed: " + e.getMessage());
         }
     }
     
@@ -236,11 +236,11 @@ public class IcebergTableActions {
                     .execute();
             
             System.out.println("✅ Orphan file removal completed!");
-            System.out.println("📊 Results:");
+            System.out.println("Results:");
             System.out.println("   • Orphan files found: " + result.orphanFileLocations());
             
         } catch (Exception e) {
-            System.err.println("❌ Orphan file removal failed: " + e.getMessage());
+            System.err.println("Orphan file removal failed: " + e.getMessage());
         }
     }
     
@@ -265,7 +265,7 @@ public class IcebergTableActions {
             spark.sql("SELECT file_path, file_format, record_count, file_size_in_bytes FROM " + tableName + ".files LIMIT 10").show(false);
             
         } catch (Exception e) {
-            System.err.println("❌ Failed to show table info: " + e.getMessage());
+            System.err.println("Failed to show table info: " + e.getMessage());
         }
     }
     
@@ -275,7 +275,7 @@ public class IcebergTableActions {
         try {
             java.io.File warehouseDir = new java.io.File(WAREHOUSE_DIR);
             if (!warehouseDir.exists()) {
-                System.out.println("   ❌ Warehouse directory not found: " + WAREHOUSE_DIR);
+                System.out.println("   Warehouse directory not found: " + WAREHOUSE_DIR);
                 return;
             }
             
@@ -303,7 +303,7 @@ public class IcebergTableActions {
             }
             
         } catch (Exception e) {
-            System.err.println("❌ Error listing tables: " + e.getMessage());
+            System.err.println("Error listing tables: " + e.getMessage());
         }
         
         System.out.println();

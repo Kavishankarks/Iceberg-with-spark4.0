@@ -48,7 +48,7 @@ public class SparkIcebergCLI {
         // Set log levels programmatically to suppress verbose logging
         spark.sparkContext().setLogLevel("ERROR");
         
-        System.out.println("✓ Spark session initialized successfully");
+        System.out.println("Spark session initialized successfully");
     }
     
     private static void setupInitialData() {

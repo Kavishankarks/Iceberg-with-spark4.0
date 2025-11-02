@@ -12,7 +12,7 @@ A Streamlit web application for browsing Iceberg table metadata and viewing Avro
 - View manifest files and data organization
 - Download metadata as JSON
 
-### 📊 Avro File Viewer
+### Avro File Viewer
 - Load and preview Avro files with fastavro
 - View schema information and statistics
 - Display native Avro schema with field details

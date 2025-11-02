@@ -81,7 +81,6 @@ streamlit-env/
 .ipynb_checkpoints
 
 # Iceberg warehouse
-warehouse/
 
 # Logs
 *.log

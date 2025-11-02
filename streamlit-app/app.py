@@ -52,7 +52,7 @@ st.markdown("---")
 st.sidebar.title("Navigation")
 page = st.sidebar.selectbox(
     "Choose a page:",
-    ["📋 Metadata Browser", "📊 Avro File Viewer", "📈 Table Statistics"]
+    ["📋 Metadata Browser", "Avro File Viewer", "📈 Table Statistics"]
 )
 
 # Default warehouse path
@@ -120,7 +120,7 @@ if page == "📋 Metadata Browser":
                                     metadata = json.load(f)
                                 
                                 # Tabs for different views
-                                tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Overview", "🗂️ Schema", "📸 Snapshots", "📁 Files", "🔧 Raw JSON"])
+                                tab1, tab2, tab3, tab4, tab5 = st.tabs(["Overview", "🗂️ Schema", "📸 Snapshots", "📁 Files", "🔧 Raw JSON"])
                                 
                                 with tab1:
                                     st.subheader("Table Overview")
@@ -244,8 +244,8 @@ if page == "📋 Metadata Browser":
     else:
         st.error("Warehouse path does not exist")
 
-elif page == "📊 Avro File Viewer":
-    st.header("📊 Avro File Viewer")
+elif page == "Avro File Viewer":
+    st.header("Avro File Viewer")
     
     # File path input
     avro_path = st.text_input(
@@ -307,7 +307,7 @@ elif page == "📊 Avro File Viewer":
                             st.metric("Memory Usage", f"{df.memory_usage(deep=True).sum():,} bytes")
                         
                         # Tabs for different views
-                        tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Data Preview", "📋 Schema Info", "🔧 Avro Schema", "📈 Statistics", "🔍 Query"])
+                        tab1, tab2, tab3, tab4, tab5 = st.tabs(["Data Preview", "📋 Schema Info", "🔧 Avro Schema", "📈 Statistics", "🔍 Query"])
                         
                         with tab1:
                             st.subheader("Data Preview")

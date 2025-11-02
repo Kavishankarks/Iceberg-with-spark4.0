@@ -188,7 +188,7 @@ public class KafkaToIcebergStreaming {
         }));
         
         System.out.println("Streaming application started successfully!");
-        System.out.println("rocessing events from Kafka topic: " + KAFKA_TOPIC);
+        System.out.println("Processing events from Kafka topic: " + KAFKA_TOPIC);
         System.out.println("Writing to Iceberg table: local.streaming.user_events");
         System.out.println("Trigger interval: 10 seconds");
         System.out.println("Checkpoint location: " + CHECKPOINT_LOCATION);

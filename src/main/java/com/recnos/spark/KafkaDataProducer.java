@@ -25,13 +25,13 @@ public class KafkaDataProducer {
     private static final String[] LAST_NAMES = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"};
     
     public static void main(String[] args) {
-        System.out.println("🚀 Starting Kafka Data Producer for Iceberg Integration");
+        System.out.println("Starting Kafka Data Producer for Iceberg Integration");
         
         // Parse arguments
         int numEvents = args.length > 0 ? Integer.parseInt(args[0]) : 1000;
         int intervalMs = args.length > 1 ? Integer.parseInt(args[1]) : 100;
         
-        System.out.printf("📊 Generating %d events with %dms interval%n", numEvents, intervalMs);
+        System.out.printf("Generating %d events with %dms interval%n", numEvents, intervalMs);
         
         KafkaDataProducer producer = new KafkaDataProducer();
         producer.generateAndSendEvents(numEvents, intervalMs);
@@ -63,10 +63,10 @@ public class KafkaDataProducer {
                     producer.send(record, (metadata, exception) -> {
                         if (exception == null) {
                             if ((finalI + 1) % 100 == 0) {
-                                System.out.printf("✅ Sent %d events to topic %s%n", finalI + 1, TOPIC_NAME);
+                                System.out.printf("Sent %d events to topic %s%n", finalI + 1, TOPIC_NAME);
                             }
                         } else {
-                            System.err.printf("❌ Error sending event %d: %s%n", finalI + 1, exception.getMessage());
+                            System.err.printf("Error sending event %d: %s%n", finalI + 1, exception.getMessage());
                         }
                     });
                     
@@ -76,16 +76,16 @@ public class KafkaDataProducer {
                     }
                     
                 } catch (Exception e) {
-                    System.err.printf("❌ Error generating event %d: %s%n", i + 1, e.getMessage());
+                    System.err.printf("Error generating event %d: %s%n", i + 1, e.getMessage());
                 }
             }
             
             // Flush and close
             producer.flush();
-            System.out.println("🏁 Finished sending all events");
+            System.out.println("Finished sending all events");
             
         } catch (Exception e) {
-            System.err.println("❌ Error with Kafka producer: " + e.getMessage());
+            System.err.println("Error with Kafka producer: " + e.getMessage());
             e.printStackTrace();
         }
     }

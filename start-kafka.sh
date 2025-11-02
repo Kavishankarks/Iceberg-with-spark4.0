@@ -2,17 +2,17 @@
 
 # Script to start Kafka cluster using Docker Compose
 
-echo "🚀 Starting Kafka Cluster for Spark-Iceberg Integration"
+echo "Starting Kafka Cluster for Spark-Iceberg Integration"
 
 # Check if Docker is running
 if ! docker info > /dev/null 2>&1; then
-    echo "❌ Docker is not running. Please start Docker first."
+    echo "Docker is not running. Please start Docker first."
     exit 1
 fi
 
 # Check if docker-compose is available
 if ! command -v docker-compose &> /dev/null; then
-    echo "❌ docker-compose not found. Please install Docker Compose."
+    echo "docker-compose not found. Please install Docker Compose."
     exit 1
 fi
 
@@ -32,7 +32,7 @@ done
 
 echo "✅ Kafka cluster is ready!"
 echo ""
-echo "📊 Service URLs:"
+echo "Service URLs:"
 echo "  • Kafka Bootstrap Server: localhost:9092"
 echo "  • Kafka UI: http://localhost:8080"
 echo "  • Kafka Connect: http://localhost:8083"

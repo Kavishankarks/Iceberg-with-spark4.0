@@ -22,7 +22,7 @@ This project provides multiple ways to interact with Iceberg tables using Apache
 - **Python 3.8+** (for Streamlit app)
 - **Maven 3.6+**
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Interactive Spark SQL CLI
 Run Spark queries directly with Iceberg table support:
@@ -58,7 +58,7 @@ This project includes a complete real-time streaming pipeline that ingests data 
 Kafka Topic (user-events) → Spark Streaming → Parquet Files → Iceberg Tables
 ```
 
-### 🚀 Quick Start - Streaming Pipeline
+### Quick Start - Streaming Pipeline
 
 #### Step 1: Start Kafka Cluster
 ```bash
@@ -89,7 +89,7 @@ This will start:
 
 **Note**: Direct Iceberg streaming has ANTLR version conflicts with Spark 4.0. The simple streaming version writes to Parquet files which can then be loaded into Iceberg tables.
 
-### 📊 Data Pipeline Components
+### Data Pipeline Components
 
 #### Kafka Data Producer (`KafkaDataProducer.java`)
 Generates realistic user event data including:
@@ -165,7 +165,7 @@ Access the Kafka UI at `http://localhost:8080` to:
 The streaming app provides real-time monitoring:
 ```
 📈 Streaming Stats - Input: 100.0 rows/sec, Processed: 95.2 rows/sec, Batch Duration: 2500ms
-📊 Processing events from Kafka topic: user-events
+Processing events from Kafka topic: user-events
 📁 Writing to Parquet files: ./warehouse/streaming/user_events_parquet
 ⏱️  Trigger interval: 10 seconds
 ---

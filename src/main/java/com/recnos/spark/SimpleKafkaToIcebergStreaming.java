@@ -28,7 +28,7 @@ public class SimpleKafkaToIcebergStreaming {
             startKafkaToIcebergStream(spark);
             
         } catch (Exception e) {
-            System.err.println("❌ Error in streaming application: " + e.getMessage());
+            System.err.println("Error in streaming application: " + e.getMessage());
             e.printStackTrace();
         } finally {
             spark.stop();
@@ -127,12 +127,12 @@ public class SimpleKafkaToIcebergStreaming {
                 query.stop();
                 System.out.println("✅ Streaming query stopped gracefully");
             } catch (Exception e) {
-                System.err.println("❌ Error stopping streaming query: " + e.getMessage());
+                System.err.println("Error stopping streaming query: " + e.getMessage());
             }
         }));
         
-        System.out.println("🚀 Streaming application started successfully!");
-        System.out.println("📊 Processing events from Kafka topic: " + KAFKA_TOPIC);
+        System.out.println("Streaming application started successfully!");
+        System.out.println("Processing events from Kafka topic: " + KAFKA_TOPIC);
         System.out.println("📁 Writing to Parquet files: ./warehouse/streaming/user_events_parquet");
         System.out.println("⏱️  Trigger interval: 10 seconds");
         System.out.println("📁 Checkpoint location: " + CHECKPOINT_LOCATION);
@@ -167,7 +167,7 @@ public class SimpleKafkaToIcebergStreaming {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } catch (Exception e) {
-                System.err.println("❌ Error in monitoring thread: " + e.getMessage());
+                System.err.println("Error in monitoring thread: " + e.getMessage());
             }
         });
         

@@ -15,7 +15,7 @@ mvn clean compile -q
 if [ $? -eq 0 ]; then
     echo "✅ Build successful"
     echo ""
-    echo "🚀 Starting Table Actions utility..."
+    echo "Starting Table Actions utility..."
     echo ""
     
     # Add JVM options for better performance and Java 17 compatibility
@@ -23,6 +23,6 @@ if [ $? -eq 0 ]; then
     
     mvn exec:java@run-table-actions -q
 else
-    echo "❌ Build failed. Please check for compilation errors."
+    echo "Build failed. Please check for compilation errors."
     exit 1
 fi

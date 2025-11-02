@@ -52,7 +52,7 @@ iceberg-actions> rewrite-data demo.employees
 ```
 🔄 Starting data files rewrite...
 ✅ Data files rewrite completed!
-📊 Results:
+Results:
    • Files rewritten: 15
    • Files added: 3
    • Bytes rewritten: 2.1 GB
@@ -90,7 +90,7 @@ iceberg-actions> rewrite-manifests demo.employees
 ```
 🔄 Starting manifest rewrite...
 ✅ Manifest rewrite completed!
-📊 Results:
+Results:
    • Manifests added: 2
 ```
 
@@ -163,7 +163,7 @@ long olderThan = System.currentTimeMillis() - (3L * 24 * 60 * 60 * 1000); // 3 d
 ```
 🔄 Starting orphan file removal...
 ✅ Orphan file removal completed!
-📊 Results:
+Results:
    • Orphan files found: 23
 ```
 
