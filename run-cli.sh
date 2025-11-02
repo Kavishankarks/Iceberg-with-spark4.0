@@ -18,7 +18,7 @@ if [ $? -eq 0 ]; then
     echo "Type 'help' for available commands, 'exit' to quit"
     echo ""
     export MAVEN_OPTS="--add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
-    mvn exec:java -Dexec.mainClass="com.example.spark.SparkIcebergCLI"
+    mvn exec:java -Dexec.mainClass="com.recnos.spark.SparkIcebergCLI"
 else
     echo "Build failed. Please check for compilation errors."
     exit 1

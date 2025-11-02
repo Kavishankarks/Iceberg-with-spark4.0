@@ -27,7 +27,7 @@ if [ $? -eq 0 ]; then
     echo ""
     # Use java directly to avoid any Maven/Spark configuration interference
     java -cp "target/classes:$(mvn dependency:build-classpath -q -Dmdep.outputFile=/dev/stdout)" \
-         com.example.spark.IcebergMetadataViewer "$METADATA_PATH"
+         com.recnos.spark.IcebergMetadataViewer "$METADATA_PATH"
 else
     echo "Build failed. Please check for compilation errors."
     exit 1

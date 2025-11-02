@@ -81,7 +81,6 @@ streamlit-env/
 .ipynb_checkpoints
 
 # Iceberg warehouse
-warehouse/
 
 # Logs
 *.log
@@ -96,3 +95,4 @@ target/jackson-libs/
 # Derby database
 derby.log
 metastore_db/
+/checkpoint
